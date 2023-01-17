@@ -4,9 +4,18 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>Quizzer</title>
 </head>
 <body>
+    <header>
+        <div class="container">
+            <h1>Singapore General Knowledge Quiz</h1>
+        </div>
+    </header>
+    <br>
+
+    <div class="container">
     <form action="Home.php" method="post" onsubmit="return validateForm()">
         
         <h1>Please insert your nickname:</h1>
@@ -20,6 +29,14 @@
 
         <input type="submit" name="submit" value="Start Quiz">
     </form>
+    </div>
+
+    <br><br>
+    <footer>
+        <div class="container">
+            Copyright &copy; 2023, Singapore General Knowledge Quiz
+        </div>
+    </footer>
 
      <script>
         // Function to validate user entered a name 
