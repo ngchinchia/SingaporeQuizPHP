@@ -1,5 +1,6 @@
 <body>
     <header>
+    <link rel="stylesheet" type="text/css" href="style.css">
         <div class="container">
             <h1>Singapore General Knowledge Quiz</h1>
         </div>
@@ -14,7 +15,7 @@
         $password = "";
         $databasename = "quiz_db";
 
-        // CREATE CONNECTION
+        // Stores a SQL database connection into $conn using mysqli_connect function
         $conn = mysqli_connect(
             $servername,
             $username,
@@ -22,22 +23,44 @@
             $databasename
         );
 
-        // GET CONNECTION ERRORS
+        // Checks for connection error
         if (!$conn) {
             die("Connection failed: " . mysqli_connect_error());
         }
 
-        // SQL QUERY
+        // Access data from form using POST method and store it in variables 
         $topic = $_POST['topic'];
-        $query = "SELECT * FROM `questions` WHERE topic='$topic' ORDER BY RAND() LIMIT 5;";
+        $nickname = $_POST['nickname'];
+       
 
-        // FETCHING DATA FROM DATABASE
-        $result = mysqli_query($conn, $query);
+        // Check if the nickname already exists in the "users" table
+        $check_query = "SELECT * FROM users WHERE nickname='$nickname'";
+        $check_name_result = mysqli_query($conn, $check_query);
+
+        if (mysqli_num_rows($check_name_result) > 0) {
+
+        } else {
+            // Nickname does not exist, insert it
+            $sql = "INSERT INTO users (nickname) VALUES ('$nickname')";
+            if (mysqli_query($conn, $sql)) {
+                echo "Records inserted successfully.";
+            } else {
+                echo "ERROR: Could not able to execute $sql. " . mysqli_error($conn);
+            }
+        }
+
+
+        
+        // Fetch random 5 questions data of selected topic
+        $rand_question_query = "SELECT * FROM `questions` WHERE topic='$topic' ORDER BY RAND() LIMIT 5;";
+        $result = mysqli_query($conn,  $rand_question_query);
 
         // Check if there are any results
-        if ($result->num_rows > 0) {
+        if (mysqli_num_rows($result) > 0) {
+            echo $nickname . "<br><br>";
+
             // Loop through the results
-            while ($row = $result->fetch_assoc()) {
+            if ($row = $result->fetch_assoc()) {
                 // Display the question
                 echo $row['question'] . "<br>";
 
