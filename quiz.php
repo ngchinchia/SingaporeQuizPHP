@@ -17,21 +17,24 @@
     </header>
     <br>
 
+
     <div class="container">
-        <form action="question.php" method="post">
+    <form action="process.php" method="post">
+    <label for="nickname">Nickname:</label>
+    <input type="text" name="nickname" id="nickname" required>
 
-            <h1>Please insert your nickname:</h1>
-            <input type="text" name="nickname" id="nickname">
-            <br><br>
+    <label for="topic">Topic:</label>
+    <select name="topic" id="topic" required>
+        <option value="history">History</option>
+        <option value="geography">Geography</option>
+    </select>
 
-            <h2>Please choose a topic:</h2>
-            <input type="radio" name="topic" value="history"> Singapore History
-            <input type="radio" name="topic" value="geography"> Singapore Geography
-            <br><br>
+    <input type="submit" name="submit" value="Submit">
+</form>
 
-            <input type="submit" name="submit" value="Start Quiz">
-        </form>
     </div>
+
+    
 
 
     <br><br>
@@ -41,7 +44,7 @@
         </div>
     </footer>
 
-   
+
 
 </body>
 
