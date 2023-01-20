@@ -19,19 +19,9 @@
 
 
     <div class="container">
-        <form action="question.php" method="post">
-            <label for="nickname">Nickname:</label>
-            <input type="text" name="nickname" id="nickname" required>
-
-            <label for="topic">Topic:</label>
-            <select name="topic" id="topic" required>
-                <option value="history">History</option>
-                <option value="geography">Geography</option>
-            </select>
-
-            <input type="submit" name="submit" value="Submit">
-        </form>
-
+        <h2>Quiz is completed!</h2>
+        <p>Final Score: 5</p>
+        <a href="question.php">Take again</a>
     </div>
 
 
