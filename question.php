@@ -24,42 +24,62 @@
         session_start();
         
 
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
             $topic = $_POST['topic'];
-            echo "<div class='container'>";
-
-            $five_questions = array_rand($quiz[$topic], 5);
-            $_SESSION['questions'] = $five_questions;
-            $_SESSION['question_number'] = 1;
             
-            $question = $quiz[$topic][$_SESSION['questions'][$_SESSION['question_number'] - 1]];
-            echo "<div>Question ".$_SESSION['question_number']." of 5</div>";
-            echo "<p class='question'>" . $question['question'] . "</p>";
-            echo "<form method='post' action='question.php'>";
-            if (array_key_exists('options', $question)) {
-              echo "<ul class='choices'>";
-              foreach ($question['options'] as $option) {
-                echo "<li><input name='choice' type='radio' value='" . $option . "'>" . $option . "</li>";
-              }
-              echo "</ul>";
-            } else {
-              echo "<input type='text' name='answer' required>";
-            }
-            echo "<input type='submit' value='Submit' />";
-            echo "</form>";
-            $_SESSION['question_number']++;
+            echo "<form method='post' action='next.php'>";
+            echo "TOPIC: ".strtoupper($topic);
+            $_SESSION['topic'] = $topic;
 
-            if ($_SESSION['question_number'] <= 5) {
-                // Display question
-            } else {
-                echo "Quiz finished!";
-            }
+            $currentQuestion = 1; // Initialize current question number
+            $totalQuestions = 5; // Total number of questions
             
+            
+            
+                
+                echo "<form method='post' action='next.php'>";
 
+                // Select 5 random keys from the $quiz[$topic] array
+                $random_keys = array_rand($quiz[$topic], 5);
 
-            echo "</div>";
+                // Store the selected keys in a session variable
+                $_SESSION['random_keys'] = $random_keys;
+
+                // Retrieve the current question from the session variable
+                $key = $_SESSION['random_keys'][$currentQuestion-1];
+                $question = $quiz[$topic][$key];
+                echo "<p class='question'>" . $question['question'] . "</p>";
+                if (array_key_exists('options', $question)) {
+                    echo "<ul class='choices'>";
+                    foreach ($question['options'] as $option) {
+                        echo "<li><input type='radio' name='answer' value='" . $option . "'>" . $option . "</li>";
+                    }
+                    echo "</ul>";
+                } else {
+                    echo "<input type='text' name='answer' required>";
+                }
+                // Add a hidden input field to store the current question number
+                echo "<input type='text' name='current_question' value='".($currentQuestion + 1)."'>";
+
+                // Retrieve the current question number from the hidden input field
+                if(isset($_POST['current_question'])) {
+                    $currentQuestion = $_POST['current_question'];
+                }
+
+                if($currentQuestion <= $totalQuestions){
+                    echo "<input type='submit' value='Next'/>";
+                }else{
+                    echo "You have completed the quiz";
+                }
+
+                echo "</form>";
+                
+            
+            
         }
-
+        
 
 
 
