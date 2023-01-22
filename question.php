@@ -35,12 +35,9 @@
 
             $currentQuestion = 1; // Initialize current question number
             $totalQuestions = 5; // Total number of questions
-            
-            
-            
-                
-                echo "<form method='post' action='next.php'>";
+            $_SESSION['score'] = 0; // Initialize score to 0
 
+            
                 // Select 5 random keys from the $quiz[$topic] array
                 $random_keys = array_rand($quiz[$topic], 5);
 
@@ -61,12 +58,10 @@
                     echo "<input type='text' name='answer' required>";
                 }
                 // Add a hidden input field to store the current question number
-                echo "<input type='text' name='current_question' value='".($currentQuestion + 1)."'>";
+                echo "<input type='text' name='current_question' value='".$currentQuestion."'>";
+                echo "<input type='text' name='answer1' value='".$question['answer']."'>";
 
-                // Retrieve the current question number from the hidden input field
-                if(isset($_POST['current_question'])) {
-                    $currentQuestion = $_POST['current_question'];
-                }
+                
 
                 if($currentQuestion <= $totalQuestions){
                     echo "<input type='submit' value='Next'/>";
@@ -74,12 +69,12 @@
                     echo "You have completed the quiz";
                 }
 
-                echo "</form>";
+                echo "</form>";  
+
                 
-            
-            
+
+             
         }
-        
 
 
 

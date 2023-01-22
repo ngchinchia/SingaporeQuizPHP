@@ -33,7 +33,7 @@
         } else {
             $key = $random_keys[$currentQuestion - 1];
             $question = $quiz[$topic][$key];
-            echo "<div class='container'>";
+           
             echo "<form method='post' action='next.php'>";
             echo "TOPIC: " . strtoupper($topic);
             echo "<p class='question'>" . $question['question'] . "</p>";
@@ -49,6 +49,13 @@
             echo "<input type='text' name='current_question' value='" . ($currentQuestion) . "'>";
             echo "<input type='submit' value='Next'/>";
             echo "</form>";
+
+            if($currentQuestion > 1){
+                echo "<form method='post' action='next.php'>";
+                echo "<input type='hidden' name='current_question' value='" . ($currentQuestion-2) . "'>";
+                echo "<input type='submit' value='Previous'/>";
+                echo "</form>";
+            }
         }
         ?>
 
