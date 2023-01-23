@@ -29,11 +29,16 @@
             $topic = $_POST['topic'];
         }
        
-        // If 5 random qns not null, store it in a session 
+        // If 5 random qns null, store it in a session 
         if (!isset($_SESSION['random_keys']) || $_SESSION['topic'] != $topic) {
             $random_keys = array_rand($quiz[$topic], 5);
-            $_SESSION['random_keys'] = $random_keys;
-            $_SESSION['topic'] = $topic;
+            if (count($random_keys) != 5) {
+                echo "Error in generating random questions please try again";
+                exit;
+            }
+                $_SESSION['random_keys'] = $random_keys;
+                $_SESSION['topic'] = $topic;
+            
         }
 
         $totalQuestions = 5;
@@ -51,47 +56,72 @@
             $currentQuestion = 0;
         }
 
-
         $random_keys = $_SESSION['random_keys'];
+        $arr = array();
 
+        if ($currentQuestion >= $totalQuestions) {
+            if (isset($_SESSION['score'])) {
+                echo "You have completed the quiz" . "<br>";
+                echo "Your score is: " . $_SESSION['score'] . " out of " . $totalQuestions;
 
+                for ($i = 0; $i < $totalQuestions; $i++) {
+                    $key = $random_keys[$i];
+                    $question = $quiz[$topic][$key];
+                    $correctAnswer = $question['answer'];
+                    $userAnswer = $_SESSION['userAnswers'][$i];
         
-        if ($currentQuestion >= $totalQuestions || $currentQuestion >= $totalKeys) {
-            echo "You have completed the quiz"."<br>";
-            echo "Your score is: " . $_SESSION['score'] . " out of " . $totalQuestions;
+                    if ($userAnswer == $correctAnswer) {
+                        echo "Question " . ($i + 1) . ": Correct" . "<br>";
+                    } else {
+                        echo "Question " . ($i + 1) . ": Incorrect. Correct answer: " . $correctAnswer . "<br>";
+                    }
+                }
+                
+            }
         } else {
             $key = $random_keys[$currentQuestion];
             $question = $quiz[$topic][$key];
 
-            echo "<form method='post' action='next.php'>";
+            echo "<form method='post' action='next.php' id='quizForm'>";
 
-            echo "TOPIC: " . strtoupper($topic);
+            echo "TOPIC: " . strtoupper($topic). "<br>";
+            
             echo "<p class='question'>" . $question['question'] . "</p>";
             if (array_key_exists('options', $question)) {
                 echo "<ul class='choices'>";
                 foreach ($question['options'] as $option) {
-                    echo "<li><input type='radio' name='answer' value='" . $option . "' required>" . $option . "</li>";
+                    echo "<li><input type='radio' name='answer' value='" . $option . "' id='answer_option' required>" . $option . "</li>";
                 }
                 echo "</ul>";
             } else {
-                echo "<input type='text' name='answer' required>";
+                echo "<input type='text' name='answer' id='answer_text' required>";
             }
             echo "<input type='text' name='current_question' value='" . $currentQuestion . "'>";
             echo "<input type='text' name='topic' value='" . $topic . "'>";
-            echo "<input type='submit' value='Next'/>";
+            
            
-            
-            if (isset($_POST['answer'])) {
-                $answer = $_POST['answer'];
-                $key = $random_keys[$currentQuestion];
-                $correctAnswer = $quiz[$topic][$key]['answer'];
-                if (strtolower($answer) == strtolower($correctAnswer)) { // added a check for correct answer
-                    $_SESSION['score']++;
-                }
-            }
-            
+             // Create a new array to store the user's answers
+    if (!isset($_SESSION['userAnswers'])) {
+        $_SESSION['userAnswers'] = array();
+    }
+
+    if (isset($_POST['answer'])) {
+        $userAnswer = $_POST['answer'];
+        $currentQuestion = $_POST['current_question'];
+        $_SESSION['userAnswers'][$currentQuestion] = $userAnswer;
+
+        // Compare the user's answer to the correct answer
+        $key = $random_keys[$currentQuestion];
+        $question = $quiz[$topic][$key];
+        $correctAnswer = $question['answer'];
+        if ($userAnswer == $correctAnswer) {
+            $_SESSION['score']++;
+        }
+    }
+           
+            echo "<input type='submit' value='Next'/>";
             echo "</form>";
-         
+           
 
             if (isset($_POST['current_question'])) {
                 $prevQuestion = $_POST['current_question'] - 1;
@@ -106,16 +136,11 @@
                 echo "<input type='submit' value='Previous'/>";
                 echo "</form>";
             }
+
+            
+         
         }
         ?>
-
-
-
-
-
-
-
-
     </div>
 
 
@@ -131,5 +156,9 @@
 
 
 </body>
+
+<script>
+    
+    </script>
 
 </html>
