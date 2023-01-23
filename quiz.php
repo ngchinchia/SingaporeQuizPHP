@@ -19,7 +19,7 @@
 
 
     <div class="container">
-        <form action="question.php" method="post">
+        <form action="next.php" method="post">
             <label for="nickname">Nickname:</label>
             <input type="text" name="nickname" id="nickname" required>
 

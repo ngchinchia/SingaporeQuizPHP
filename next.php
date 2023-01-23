@@ -22,37 +22,87 @@
         <?php
         session_start();
         include 'qna.php';
+
+        if (!isset($_POST['topic'])) {
+            $topic = "history";
+        } else {
+            $topic = $_POST['topic'];
+        }
+       
+        // If 5 random qns not null, store it in a session 
+        if (!isset($_SESSION['random_keys']) || $_SESSION['topic'] != $topic) {
+            $random_keys = array_rand($quiz[$topic], 5);
+            $_SESSION['random_keys'] = $random_keys;
+            $_SESSION['topic'] = $topic;
+        }
+
         $totalQuestions = 5;
         $totalKeys = count($_SESSION['random_keys']);
-        $currentQuestion = $_POST['current_question'] + 1;
-        $topic = $_SESSION['topic'];
+
+        if (!isset($_SESSION['score'])) {
+            $_SESSION['score'] = 0;
+        }
+
+
+        // If submitted curr qns not null, increment by 1
+        if (isset($_POST['current_question'])) {
+            $currentQuestion = $_POST['current_question'] + 1;
+        } else {
+            $currentQuestion = 0;
+        }
+
+
         $random_keys = $_SESSION['random_keys'];
 
-        if ($currentQuestion > $totalQuestions || $currentQuestion > $totalKeys) {
-            echo "You have completed the quiz";
+
+        
+        if ($currentQuestion >= $totalQuestions || $currentQuestion >= $totalKeys) {
+            echo "You have completed the quiz"."<br>";
+            echo "Your score is: " . $_SESSION['score'] . " out of " . $totalQuestions;
         } else {
-            $key = $random_keys[$currentQuestion - 1];
+            $key = $random_keys[$currentQuestion];
             $question = $quiz[$topic][$key];
-           
+
             echo "<form method='post' action='next.php'>";
+
             echo "TOPIC: " . strtoupper($topic);
             echo "<p class='question'>" . $question['question'] . "</p>";
             if (array_key_exists('options', $question)) {
                 echo "<ul class='choices'>";
                 foreach ($question['options'] as $option) {
-                    echo "<li><input type='radio' name='answer' value='" . $option . "'>" . $option . "</li>";
+                    echo "<li><input type='radio' name='answer' value='" . $option . "' required>" . $option . "</li>";
                 }
                 echo "</ul>";
             } else {
                 echo "<input type='text' name='answer' required>";
             }
-            echo "<input type='text' name='current_question' value='" . ($currentQuestion) . "'>";
+            echo "<input type='text' name='current_question' value='" . $currentQuestion . "'>";
+            echo "<input type='text' name='topic' value='" . $topic . "'>";
             echo "<input type='submit' value='Next'/>";
+           
+            
+            if (isset($_POST['answer'])) {
+                $answer = $_POST['answer'];
+                $key = $random_keys[$currentQuestion];
+                $correctAnswer = $quiz[$topic][$key]['answer'];
+                if (strtolower($answer) == strtolower($correctAnswer)) { // added a check for correct answer
+                    $_SESSION['score']++;
+                }
+            }
+            
             echo "</form>";
+         
 
-            if($currentQuestion > 1){
+            if (isset($_POST['current_question'])) {
+                $prevQuestion = $_POST['current_question'] - 1;
+            } else {
+                $prevQuestion = 0;
+            }
+
+            if ($currentQuestion > 0) {
                 echo "<form method='post' action='next.php'>";
-                echo "<input type='hidden' name='current_question' value='" . ($currentQuestion-2) . "'>";
+                echo "<input type='hidden' name='topic' value='" . $topic . "'>";
+                echo "<input type='hidden' name='current_question' value='" . $prevQuestion . "'>";
                 echo "<input type='submit' value='Previous'/>";
                 echo "</form>";
             }
