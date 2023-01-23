@@ -62,7 +62,7 @@
         if ($currentQuestion >= $totalQuestions) {
             if (isset($_SESSION['score'])) {
                 echo "You have completed the quiz" . "<br>";
-                echo "Your score is: " . $_SESSION['score'] . " out of " . $totalQuestions;
+                echo "Your score is: " . $_SESSION['score'] . " out of " . $totalQuestions. "<br>";
 
                 for ($i = 0; $i < $totalQuestions; $i++) {
                     $key = $random_keys[$i];

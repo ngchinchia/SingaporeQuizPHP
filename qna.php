@@ -57,9 +57,9 @@
                 From May to July", "From November to February", "From December to January"]
             ),
             array(
-                "question" => "Who is credited with founding Singapore?",
-                "answer" => "Sir Stamford Raffles",
-                "options" => ["Lee Kuan Yew", "Sir Stamford Raffles", "Captain James Cook", "William Codrington"]
+                "question" => "Where do you go to see animals in Singapore?",
+                "answer" => "Singapore Zoo",
+                "options" => ["Singapore Flyer", "Singapore Botanic Gardens", "Pet Farm", "Singapore Zoo"]
             ),
             array(
                 "question" => "What time zone does Singapore follow?",
