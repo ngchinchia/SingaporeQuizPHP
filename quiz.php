@@ -21,7 +21,7 @@
     <div class="container">
         <form action="next.php" method="post">
             <label for="nickname">Nickname:</label>
-            <input type="text" name="nickname" id="nickname" required>
+            <input type="text" name="nickname" id="nickname"  required>
 
             <label for="topic">Topic:</label>
             <select name="topic" id="topic" required>
