@@ -21,16 +21,14 @@
     <div class="container">
         <?php
         session_start();
-        
-        
-
-  
         include 'qna.php';
 
         // Create a new array to store the user's answers
         if (!isset($_SESSION['userinput'])) {
             $_SESSION['userinput'] = array();
         }
+
+        
     
         if (!isset($_POST['topic'])) {
             $topic = "history";
@@ -64,11 +62,19 @@
             $currentQuestion = 0;
         }
 
+        if(!isset($_POST['answer'])){
+            $_POST['answer'] = '';
+        }
+
+        if(isset($_POST['submit'])) {
+            $_SESSION['userinput'][$currentQuestion] = $_POST['answer'];
+        }
+
         $random_keys = $_SESSION['random_keys'];
         $arr = array();
 
         if ($currentQuestion >= $totalQuestions) {
-            if (isset($_SESSION['score'])) {
+           
                 echo "You have completed the quiz" . "<br>";
                 echo "Your score is " . $_SESSION['score'] . " out of " . $totalQuestions. "<br>";
                 
@@ -92,7 +98,7 @@
                 }
                 var_dump($_SESSION['userinput'][5]);
 
-            }
+            
         } else {
             $key = $random_keys[$currentQuestion];
             $question = $quiz[$topic][$key];
@@ -113,7 +119,7 @@
             }
             echo "<input type='text' name='current_question' value='" . $currentQuestion . "'>";
             echo "<input type='text' name='topic' value='" . $topic . "'>";
-
+           
 
           
 
@@ -136,8 +142,24 @@
                 }
                 $currentQuestion++;
             }
+            
 
-            echo "<input type='submit' value='Next'/>";
+            if ($currentQuestion < $totalQuestions) {
+                echo "<input type='submit' value='Next'/>";
+            }
+                
+            
+            
+            if ($currentQuestion == $totalQuestions) {
+                echo  "<form method='post' action='next.php'>";
+
+                echo "Are you sure you want to submit? <br>";
+                echo "<input type='submit' name='submit' value='Yes, submit'>";
+                echo "<input type='hidden' name='userinput[$currentQuestion]' value='".$_POST['answer']."'>";
+                
+                echo "</form>";
+                //exit;
+            }
             echo "</form>";
 
 

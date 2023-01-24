@@ -23,8 +23,8 @@
             ),
             array(
                 "question" => "Which political party was in office in Singapore in 2004?",
-                "answer" => "People's Action Party (PAP)",
-                "options" => ["Democratic Revolutionary Action Group (DRAG)", "Republican Army Party (RAP)", "Sentosa National Institutional Party (SNIP)", "People's Action Party (PAP)"]
+                "answer" => "PAP",
+                "options" => ["Democratic Revolutionary Action Group (DRAG)", "Republican Army Party (RAP)", "Sentosa National Institutional Party (SNIP)", "PAP"]
             ),
             array(
                 "question" => "What is the name of Singapore's principal airline?",
