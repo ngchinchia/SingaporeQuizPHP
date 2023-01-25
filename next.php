@@ -98,6 +98,11 @@
             $correct = 0;
             $incorrect = 0;
 
+            if (!isset($_SESSION['attempts'][$_SESSION['nickname']])) {
+                $_SESSION['attempts'][$_SESSION['nickname']] = 1;
+            } else {
+                $_SESSION['attempts'][$_SESSION['nickname']]++;
+            }
 
             for ($i = 0; $i < 5; $i++) {
                 $key = $random_keys[$i];
@@ -125,7 +130,7 @@
             
 
             $nickname = $_SESSION['nickname'];
-            $leaderboard[] = array("nickname" => $nickname, "score" => $score, "attempts" => $_SESSION['attempts']);
+            $leaderboard[] = array("nickname" => $nickname, "score" => $score, "Final score for current quiz:" => array('correct' => $correct, 'incorrect' => $incorrect), "attempts" => $_SESSION['attempts'][$_SESSION['nickname']]);
 
             // Writes into leaderboard text file
             file_put_contents('LeaderBoard.txt', json_encode($leaderboard), FILE_APPEND);
