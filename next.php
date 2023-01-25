@@ -21,6 +21,9 @@
     <div class="container">
         <?php
         session_start();
+      
+        
+        
         include 'qna.php';
 
         // Stores identifier in a session 
@@ -61,6 +64,14 @@
             $_SESSION['score'] = 0;
         }
 
+        /* Set default score to 0 */
+        if (!isset($_SESSION['overall_score'])) {
+            $_SESSION['overall_score'] = 0;
+        } 
+
+       
+        
+
 
         /* If submitted curr qns not null, increment by 1, else default to 0 */
         if (isset($_POST['current_question'])) {
@@ -87,7 +98,7 @@
             $_SESSION['attempts'] = array();
         }
 
-        
+
 
 
         /* If else check for quiz ending */
@@ -125,21 +136,41 @@
             }
             //Checks last qns answer
             //var_dump($_SESSION['userinput'][5]);
+            $score = $_SESSION['score'];
             $score = ($correct * 5) - ($incorrect * 3);
-            echo "Well done! You have accumulated " . $score . " points in this attempt." . "<br>";
+            $_SESSION['overall_score'] += $score;
             
 
+
+            echo "You have accumulated " . $score . " points in this attempt." . "<br>";
+            echo "Your overall score for all quizzes attempted is " . $_SESSION['overall_score'] . "<br>";
+
+           
+
             $nickname = $_SESSION['nickname'];
-            $leaderboard[] = array("nickname" => $nickname, "score" => $score, "Final score for current quiz:" => array('correct' => $correct, 'incorrect' => $incorrect), "attempts" => $_SESSION['attempts'][$_SESSION['nickname']]);
+            
 
+            // check if the nickname already exists in the leaderboard
+            if(file_exists('LeaderBoard.txt')){
+                $userData = json_decode(file_get_contents('LeaderBoard.txt'), true);
+            }else{
+                $userData = array();
+            }
+            $nicknameExists = false;
+            foreach ($userData as $key => $user) {
+                if ($user['nickname'] == $nickname) {
+                    $nicknameExists = true;
+                    $userData[$key] = array("nickname" => $nickname, "score" => $_SESSION['overall_score'], "attempts" => $_SESSION['attempts'][$_SESSION['nickname']]);
+                    break;
+                }
+            }
+
+            if (!$nicknameExists) {
+                $userData[] = array("nickname" => $nickname, "score" => $_SESSION['overall_score'], "attempts" => $_SESSION['attempts'][$_SESSION['nickname']]);
+            }
             // Writes into leaderboard text file
-            file_put_contents('LeaderBoard.txt', json_encode($leaderboard), FILE_APPEND);
+            file_put_contents('LeaderBoard.txt', json_encode($userData));
 
-            // Retrieve data from text file
-            $userData = json_decode(file_get_contents('LeaderBoard.txt'), true);
-            //$overall_points = $userData[]['score'];
-
-            //echo "Your overall points in the current attempt is: " . $overall_points;
 
 
 
@@ -147,7 +178,7 @@
         } else {
             $key = $random_keys[$currentQuestion];
             $question = $quiz[$topic][$key];
-
+            $nickname = $_SESSION['nickname'];
             echo "<form method='post' action='next.php' id='quizForm'>";
 
             echo "TOPIC: " . strtoupper($topic) . "<br>";
