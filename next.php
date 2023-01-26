@@ -24,7 +24,7 @@
       
         
         /*This is a comment */
-        
+
         include 'qna.php';
 
         // Stores identifier in a session 
@@ -116,6 +116,8 @@
                 $_SESSION['attempts'][$_SESSION['nickname']]++;
             }
 
+        
+
             for ($i = 0; $i < 5; $i++) {
                 $key = $random_keys[$i];
                 $question = $quiz[$topic][$key];
@@ -140,17 +142,31 @@
             $score = $_SESSION['score'];
             $score = ($correct * 5) - ($incorrect * 3);
             $_SESSION['overall_score'] += $score;
-            
 
 
+            echo "Nickname : " . $_SESSION['nickname']. "<br>";
             echo "You have accumulated " . $score . " points in this attempt." . "<br>";
             echo "Your overall score for all quizzes attempted is " . $_SESSION['overall_score'] . "<br>";
+
+            echo "Start a new quiz";
+
+            echo"<form action='next.php' method='post'>";
+            echo "<input type='text' name='" . $_SESSION['nickname'] . "' id='nickname'>";
+
+            echo"<label for='topic'>Topic:</label>";
+            echo"<select name='topic' id='topic' required>";
+            echo"<option value='history'>History</option>";
+            echo"<option value='geography'>Geography</option>";
+            echo"</select>";
+
+            echo"<input type='submit' name='submit' value='Submit'>";
+            echo "</form>";
 
            
 
             $nickname = $_SESSION['nickname'];
             
-
+            /*
             // check if the nickname already exists in the leaderboard
             if(file_exists('LeaderBoard.txt')){
                 $userData = json_decode(file_get_contents('LeaderBoard.txt'), true);
@@ -170,7 +186,7 @@
                 $userData[] = array("nickname" => $nickname, "score" => $_SESSION['overall_score'], "attempts" => $_SESSION['attempts'][$_SESSION['nickname']]);
             }
             // Writes into leaderboard text file
-            file_put_contents('LeaderBoard.txt', json_encode($userData));
+            file_put_contents('LeaderBoard.txt', json_encode($userData)); */
 
 
 
