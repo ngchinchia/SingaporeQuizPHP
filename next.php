@@ -23,6 +23,7 @@
         session_start();
       
         
+        /*This is a comment */
         
         include 'qna.php';
 
