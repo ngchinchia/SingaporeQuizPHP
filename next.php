@@ -151,7 +151,7 @@
             echo "Start a new quiz";
 
             echo"<form action='next.php' method='post'>";
-            echo "<input type='text' name='" . $_SESSION['nickname'] . "' id='nickname'>";
+            
 
             echo"<label for='topic'>Topic:</label>";
             echo"<select name='topic' id='topic' required>";
