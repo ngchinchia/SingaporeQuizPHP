@@ -21,8 +21,9 @@
     <div class="container">
         <?php
         session_start();
-      
-        
+
+
+
         /*This is a comment */
 
         include 'qna.php';
@@ -65,15 +66,6 @@
             $_SESSION['score'] = 0;
         }
 
-        /* Set default score to 0 */
-        if (!isset($_SESSION['overall_score'])) {
-            $_SESSION['overall_score'] = 0;
-        } 
-
-       
-        
-
-
         /* If submitted curr qns not null, increment by 1, else default to 0 */
         if (isset($_POST['current_question'])) {
             $currentQuestion = $_POST['current_question'] + 1;
@@ -96,8 +88,9 @@
 
         /* Array session to store user's attempts */
         if (!isset($_SESSION['attempts'])) {
-            $_SESSION['attempts'] = array();
+            $_SESSION['attempts'] = 0;
         }
+
 
 
 
@@ -110,13 +103,6 @@
             $correct = 0;
             $incorrect = 0;
 
-            if (!isset($_SESSION['attempts'][$_SESSION['nickname']])) {
-                $_SESSION['attempts'][$_SESSION['nickname']] = 1;
-            } else {
-                $_SESSION['attempts'][$_SESSION['nickname']]++;
-            }
-
-        
 
             for ($i = 0; $i < 5; $i++) {
                 $key = $random_keys[$i];
@@ -137,53 +123,68 @@
                     $incorrect++;
                 }
             }
+            echo "Number of correct : $correct" . "<br>";
+            echo "Number of incorrect : $incorrect" . "<br>";
+
             //Checks last qns answer
             //var_dump($_SESSION['userinput'][5]);
+            $nickname = $_SESSION['nickname'];
             $score = $_SESSION['score'];
             $score = ($correct * 5) - ($incorrect * 3);
-            $_SESSION['overall_score'] += $score;
+
+            /* Set overall score as an array */
+            if (!isset($_SESSION['overall_score'])) {
+                $_SESSION['overall_score'] = array();
+            }
 
 
-            echo "Nickname : " . $_SESSION['nickname']. "<br>";
-            echo "You have accumulated " . $score . " points in this attempt." . "<br>";
-            echo "Your overall score for all quizzes attempted is " . $_SESSION['overall_score'] . "<br>";
 
-            echo "Start a new quiz";
+            if (isset($_SESSION['overall_score'][$nickname])) {
 
-            echo"<form action='next.php' method='post'>";
-            
+                $_SESSION['overall_score'][$nickname] += $score;
+            } else {
+                // Add the current score as the overall score
+                $_SESSION['overall_score'][$nickname] = $score;
+            }
 
-            echo"<label for='topic'>Topic:</label>";
-            echo"<select name='topic' id='topic' required>";
-            echo"<option value='history'>History</option>";
-            echo"<option value='geography'>Geography</option>";
-            echo"</select>";
 
-            echo"<input type='submit' name='submit' value='Submit'>";
+            echo "Nickname : " . $_SESSION['nickname'] . "<br>";
+            echo "Current quiz points : " . $score . "<br>";
+            echo "Overall points : " . $_SESSION['overall_score'][$nickname] . "<br>";
+
+
+            // Display the start quiz button
+            echo "<button onclick='selectTopic()'>Start a new quiz</button>";
+            // Display the select options on click
+            echo "<form action='next.php' method='post' id='topic' style='display:none;'>";
+            echo "<select name='topic' id='topic' required>";
+            echo "<option value='history'>History</option>";
+            echo "<option value='geography'>Geography</option>";
+            echo "</select>";
+            echo "<input type='submit' name='submit' value='Submit'>";
             echo "</form>";
 
-           
+            echo "<button id='exit-button' onclick='redirect()'>Exit</button>";
 
-            $nickname = $_SESSION['nickname'];
-            
+
+
             /*
             // check if the nickname already exists in the leaderboard
             if(file_exists('LeaderBoard.txt')){
-                $userData = json_decode(file_get_contents('LeaderBoard.txt'), true);
+            $userData = json_decode(file_get_contents('LeaderBoard.txt'), true);
             }else{
-                $userData = array();
+            $userData = array();
             }
             $nicknameExists = false;
             foreach ($userData as $key => $user) {
-                if ($user['nickname'] == $nickname) {
-                    $nicknameExists = true;
-                    $userData[$key] = array("nickname" => $nickname, "score" => $_SESSION['overall_score'], "attempts" => $_SESSION['attempts'][$_SESSION['nickname']]);
-                    break;
-                }
+            if ($user['nickname'] == $nickname) {
+            $nicknameExists = true;
+            $userData[$key] = array("nickname" => $nickname, "score" => $_SESSION['overall_score'], "attempts" => $_SESSION['attempts'][$_SESSION['nickname']]);
+            break;
             }
-
+            }
             if (!$nicknameExists) {
-                $userData[] = array("nickname" => $nickname, "score" => $_SESSION['overall_score'], "attempts" => $_SESSION['attempts'][$_SESSION['nickname']]);
+            $userData[] = array("nickname" => $nickname, "score" => $_SESSION['overall_score'], "attempts" => $_SESSION['attempts'][$_SESSION['nickname']]);
             }
             // Writes into leaderboard text file
             file_put_contents('LeaderBoard.txt', json_encode($userData)); */
@@ -290,6 +291,20 @@
 </body>
 
 <script>
+
+    function selectTopic() {
+        var form = document.getElementById("topic");
+        if (form.style.display === "none") {
+            form.style.display = "block";
+        } else {
+            form.style.display = "none";
+        }
+    }
+
+    function redirect() {
+        window.location.href = "quiz.php";
+        exit();
+    }
 
 </script>
 
