@@ -148,6 +148,7 @@
             }
 
 
+
             echo "Nickname : " . $_SESSION['nickname'] . "<br>";
             echo "Current quiz points : " . $score . "<br>";
             echo "Overall points : " . $_SESSION['overall_score'][$nickname] . "<br>";
@@ -164,6 +165,27 @@
             echo "<input type='submit' name='submit' value='Submit'>";
             echo "</form>";
 
+            $lines = file('LeaderBoard.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+            $findNickname = false;
+            $new_lines = array();
+
+            foreach ($lines as $line) {
+                $data = json_decode($line, true); //converts each line from JSON string to array
+                if ($data && $data[0] == $nickname) {
+                    $data = array($_SESSION['nickname'], $_SESSION['overall_score'][$nickname]);
+                    $findNickname = true;
+                }
+                if ($data) {
+                    $new_lines[] = json_encode($data); 
+                }
+            }
+
+            if (!$findNickname) {
+                $new_lines[] = json_encode(array($_SESSION['nickname'], $_SESSION['overall_score'][$nickname]));
+            }
+
+            file_put_contents('LeaderBoard.txt', implode("\n", $new_lines));
+            
             echo "<button id='exit-button' onclick='redirect()'>Exit</button>";
 
 
