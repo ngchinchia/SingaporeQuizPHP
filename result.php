@@ -91,7 +91,8 @@
             echo "You have completed the quiz" . "<br>";
 
           
-
+            echo "Number of correct : ".  $_SESSION['correct'] . "<br>";
+            echo "Number of incorrect : ".  $_SESSION['incorrect'] . "<br>";
             echo "Nickname : " . $_SESSION['nickname'] . "<br>";
             echo "Current quiz points : " .  $_SESSION['score'] . "<br>";
             echo "Overall points : " . $_SESSION['overall_score'][$_SESSION['nickname']] . "<br>";

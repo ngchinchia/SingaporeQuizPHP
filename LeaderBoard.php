@@ -62,6 +62,8 @@
 
             function sortByName($a, $b)
             {
+                $a = preg_replace('/[^a-zA-Z0-9]+/', '', $a[0]);
+                $b = preg_replace('/[^a-zA-Z0-9]+/', '', $b[0]);
                 return strcmp($a[0], $b[0]);
             }
 
