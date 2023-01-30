@@ -21,11 +21,6 @@
     <div class="container">
         <?php
         session_start();
-
-
-
-        /*This is a comment */
-
         include 'qna.php';
 
         // Stores identifier in a session 
@@ -92,9 +87,6 @@
         }
 
 
-
-
-
         /* If else check for quiz ending */
         if ($currentQuestion >= $totalQuestions) {
 
@@ -115,22 +107,26 @@
                 //var_dump($userAnswer);
         
                 if (strtolower($userAnswer) == strtolower($correctAnswer)) {
-                    echo "Question " . ($i + 1) . ": Correct" . "<br>";
+                    
                     $correct++;
 
                 } else {
-                    echo "Question " . ($i + 1) . ": Incorrect. Correct answer: " . $correctAnswer . "<br>";
+                    
                     $incorrect++;
                 }
             }
-            echo "Number of correct : $correct" . "<br>";
-            echo "Number of incorrect : $incorrect" . "<br>";
+
+            $_SESSION['correct'] = $correct;
+            $_SESSION['incorrect'] = $incorrect;
+            echo "Number of correct : ".  $_SESSION['correct'] . "<br>";
+            echo "Number of incorrect : ".  $_SESSION['incorrect'] . "<br>";
 
             //Checks last qns answer
             //var_dump($_SESSION['userinput'][5]);
             $nickname = $_SESSION['nickname'];
-            $score = $_SESSION['score'];
+           
             $score = ($correct * 5) - ($incorrect * 3);
+            $_SESSION['score'] = $score;
 
             /* Set overall score as an array */
             if (!isset($_SESSION['overall_score'])) {
@@ -147,10 +143,10 @@
                 $_SESSION['overall_score'][$nickname] = $score;
             }
 
-
+           
 
             echo "Nickname : " . $_SESSION['nickname'] . "<br>";
-            echo "Current quiz points : " . $score . "<br>";
+            echo "Current quiz points : " .  $_SESSION['score'] . "<br>";
             echo "Overall points : " . $_SESSION['overall_score'][$nickname] . "<br>";
 
 
@@ -162,8 +158,10 @@
             echo "<option value='history'>History</option>";
             echo "<option value='geography'>Geography</option>";
             echo "</select>";
+            echo "<br>";
             echo "<input type='submit' name='submit' value='Submit'>";
             echo "</form>";
+            echo "<br>";
 
             $lines = file('LeaderBoard.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
             $findNickname = false;
@@ -185,35 +183,10 @@
             }
 
             file_put_contents('LeaderBoard.txt', implode("\n", $new_lines));
-            
-            echo "<button id='exit-button' onclick='redirect()'>Exit</button>";
 
-
-
-            /*
-            // check if the nickname already exists in the leaderboard
-            if(file_exists('LeaderBoard.txt')){
-            $userData = json_decode(file_get_contents('LeaderBoard.txt'), true);
-            }else{
-            $userData = array();
-            }
-            $nicknameExists = false;
-            foreach ($userData as $key => $user) {
-            if ($user['nickname'] == $nickname) {
-            $nicknameExists = true;
-            $userData[$key] = array("nickname" => $nickname, "score" => $_SESSION['overall_score'], "attempts" => $_SESSION['attempts'][$_SESSION['nickname']]);
-            break;
-            }
-            }
-            if (!$nicknameExists) {
-            $userData[] = array("nickname" => $nickname, "score" => $_SESSION['overall_score'], "attempts" => $_SESSION['attempts'][$_SESSION['nickname']]);
-            }
-            // Writes into leaderboard text file
-            file_put_contents('LeaderBoard.txt', json_encode($userData)); */
-
-
-
-
+            echo "<button onclick='redirectLeaderBoard()'>Go to Leaderboard</button>";
+            echo "<br>";
+            echo "<button id='exit-button' onclick='redirectQuiz()'>Exit</button>";
 
         } else {
             $key = $random_keys[$currentQuestion];
@@ -267,8 +240,7 @@
 
             if ($currentQuestion == $totalQuestions) {
                 echo "<form method='post' action='next.php'>";
-
-                echo "Are you sure you want to submit? <br>";
+                echo "<br>";
                 echo "<input type='submit' name='submit' value='Submit'>";
                 echo "<input type='hidden' name='userinput[$currentQuestion]' value='" . $_POST['answer'] . "'>";
 
@@ -323,8 +295,13 @@
         }
     }
 
-    function redirect() {
+    function redirectQuiz() {
         window.location.href = "quiz.php";
+        exit();
+    }
+
+    function redirectLeaderBoard() {
+        window.location.href = "LeaderBoard.php";
         exit();
     }
 
