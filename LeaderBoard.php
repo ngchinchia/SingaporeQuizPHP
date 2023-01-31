@@ -72,21 +72,31 @@
         }
         
         // Display the table
-        echo "<table>";
-        echo "<h2>LeaderBoard</h2>";
+        echo "<table class='table-record'>";
+        echo "<div class='heading-topic'>";
+        echo strtoupper("<h2>l e a d e r B o a r d</h2>");
+        echo "</div>";
+        echo "<br>";
+
+        
         echo "<tr><th>Nickname</th><th>Score</th></tr>";
         foreach ($newarray as $score) {
             echo "<tr><td>" . $score[0] . "</td><td>" . $score[1] . "</td></tr>";
         }
+        
         echo "</table>";
         echo "<br>";
+        
         echo "<form action='LeaderBoard.php' method='GET'>";
-        echo "<input type='submit' name='sortbyname' value='Sort by Name'>";
+        echo "<div class='sort-buttons'>";
+        echo "<input type='submit' name='sortbyname' value='Sort by Name' class='sortname-btn'>";
         echo "<br>";
-        echo "<input type='submit' name='sortbyscore' value='Sort by Score'>";
+        echo "<input type='submit' name='sortbyscore' value='Sort by Score' class='sortscore-btn'>";
         echo "<br>";
-        echo "<input type='submit' name='navigateback' value='Go Back'>";
+        echo "<input type='submit' name='navigateback' value='Go Back' class='prev-btn'>";
+        echo "</div>";
         echo "</form>";
+       
 
         if (isset($_GET['navigateback'])) {
             header("Location:result.php");

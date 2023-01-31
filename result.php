@@ -88,36 +88,40 @@
 
 
         /* If else check for quiz ending */
-            echo "You have completed the quiz" . "<br>";
+        echo "<div class='heading-topic'>";
+        echo "R E S U L T";
+        echo "</div>";
 
-          
-            echo "Number of correct : ".  $_SESSION['correct'] . "<br>";
-            echo "Number of incorrect : ".  $_SESSION['incorrect'] . "<br>";
-            echo "Nickname : " . $_SESSION['nickname'] . "<br>";
-            echo "Current quiz points : " .  $_SESSION['score'] . "<br>";
-            echo "Overall points : " . $_SESSION['overall_score'][$_SESSION['nickname']] . "<br>";
+        echo "<br>" . "You have completed the quiz" . "<br>";
 
 
-            // Display the start quiz button
-            echo "<button onclick='selectTopic()'>Start a new quiz</button>";
-            // Display the select options on click
-            echo "<form action='next.php' method='post' id='topic' style='display:none;'>";
-            echo "<select name='topic' id='topic' required>";
-            echo "<option value='history'>History</option>";
-            echo "<option value='geography'>Geography</option>";
-            echo "</select>";
-            echo "<br>";
-            echo "<input type='submit' name='submit' value='Submit'>";
-            echo "</form>";
-            echo "<br>";
+        echo "Number of correct : " . $_SESSION['correct'] . "<br>";
+        echo "Number of incorrect : " . $_SESSION['incorrect'] . "<br>";
+        echo "Nickname : " . $_SESSION['nickname'] . "<br>";
+        echo "Current quiz points : " . $_SESSION['score'] . "<br>";
+        echo "Overall points : " . $_SESSION['overall_score'][$_SESSION['nickname']] . "<br>";
 
-          
-           
-            echo "<button onclick='redirectLeaderBoard()'>Go to Leaderboard</button>";
-            echo "<br>";
-            echo "<button id='exit-button' onclick='redirectQuiz()'>Exit</button>";
 
-        
+        // Display the start quiz button
+        echo "<button onclick='selectTopic()' class='newquiz-btn btn-base'>Start a new quiz</button>";
+        // Display the select options on click
+        echo "<form action='next.php' method='post' id='topic' style='display:none;'>";
+        echo "<select name='topic' id='topic' required class='my-input'>";
+        echo "<option value='history'>History</option>";
+        echo "<option value='geography'>Geography</option>";
+        echo "</select>";
+        echo "<br>";
+        echo "<input type='submit' name='submit' value='Submit' class='submit-btn'>";
+        echo "</form>";
+        echo "<br>";
+
+
+
+        echo "<button onclick='redirectLeaderBoard()' class='record-btn btn-base'>Go to Leaderboard</button>";
+        echo "<br>";
+        echo "<button id='exit-button' onclick='redirectQuiz()' class='exit-btn btn-base'>Exit</button>";
+
+
         ?>
     </div>
 

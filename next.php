@@ -90,7 +90,12 @@
         /* If else check for quiz ending */
         if ($currentQuestion >= $totalQuestions) {
 
-            echo "You have completed the quiz" . "<br>";
+            echo "<div class='heading-topic'>";
+            echo "R E S U L T";
+            echo "</div>";
+            
+            echo "<br>"."You have completed the quiz" . "<br>";
+
 
             $correct = 0;
             $incorrect = 0;
@@ -151,15 +156,15 @@
 
 
             // Display the start quiz button
-            echo "<button onclick='selectTopic()'>Start a new quiz</button>";
+            echo "<button onclick='selectTopic()' class='newquiz-btn btn-base'>Start a new quiz</button>";
             // Display the select options on click
             echo "<form action='next.php' method='post' id='topic' style='display:none;'>";
-            echo "<select name='topic' id='topic' required>";
+            echo "<select name='topic' id='topic' required class='my-input'>";
             echo "<option value='history'>History</option>";
             echo "<option value='geography'>Geography</option>";
             echo "</select>";
             echo "<br>";
-            echo "<input type='submit' name='submit' value='Submit'>";
+            echo "<input type='submit' name='submit' value='Submit' class='submit-btn'>";
             echo "</form>";
             echo "<br>";
 
@@ -184,9 +189,9 @@
 
             file_put_contents('LeaderBoard.txt', implode("\n", $new_lines));
 
-            echo "<button onclick='redirectLeaderBoard()'>Go to Leaderboard</button>";
+            echo "<button onclick='redirectLeaderBoard()' class='record-btn btn-base'>Go to Leaderboard</button>";
             echo "<br>";
-            echo "<button id='exit-button' onclick='redirectQuiz()'>Exit</button>";
+            echo "<button id='exit-button' onclick='redirectQuiz()' class='exit-btn btn-base'>Exit</button>";
 
         } else {
             $key = $random_keys[$currentQuestion];
@@ -194,17 +199,20 @@
             $nickname = $_SESSION['nickname'];
             echo "<form method='post' action='next.php' id='quizForm'>";
 
+            echo "<div class='heading-topic'>";
             echo "TOPIC: " . strtoupper($topic) . "<br>";
-
+            echo "</div>";
+            
             echo "<p class='question'>" . $question['question'] . "</p>";
             if (array_key_exists('options', $question)) {
                 echo "<ul class='choices'>";
                 foreach ($question['options'] as $option) {
-                    echo "<li><input type='radio' name='answer' value='" . $option . "' id='answer_option' required>" . $option . "</li>";
+                    echo "<li><input type='radio' name='answer' value='" . $option . "' id='answer_option' required  class='radio-input'>" . $option . "</li>";
                 }
                 echo "</ul>";
             } else {
-                echo "<input type='text' name='answer' id='answer_text' required>";
+                echo "<input type='text' name='answer' id='answer_text' required class='my-input'>";
+                echo "<br>";
             }
             echo "<input type='hidden' name='current_question' value='" . $currentQuestion . "'>";
             echo "<input type='hidden' name='topic' value='" . $topic . "'>";
@@ -233,15 +241,14 @@
 
 
             if ($currentQuestion < $totalQuestions) {
-                echo "<input type='submit' value='Next'/>";
+                echo "<input type='submit' value='Next' class='next-btn'/>";
             }
 
 
 
             if ($currentQuestion == $totalQuestions) {
                 echo "<form method='post' action='next.php'>";
-                echo "<br>";
-                echo "<input type='submit' name='submit' value='Submit'>";
+                echo "<input type='submit' name='submit' value='Submit' class='submit-btn'>";
                 echo "<input type='hidden' name='userinput[$currentQuestion]' value='" . $_POST['answer'] . "'>";
 
                 echo "</form>";
@@ -260,7 +267,7 @@
                 echo "<form method='post' action='next.php'>";
                 echo "<input type='hidden' name='topic' value='" . $topic . "'>";
                 echo "<input type='hidden' name='current_question' value='" . $prevQuestion . "'>";
-                echo "<input type='submit' value='Previous'/>";
+                echo "<input type='submit' value='Previous' class='prev-btn'/>";
                 echo "</form>";
             }
 

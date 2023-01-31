@@ -21,15 +21,15 @@
     <div class="container">
         <form action="next.php" method="post">
             <label for="nickname">Nickname:</label>
-            <input type="text" name="nickname" id="nickname"  required>
+            <input type="text" name="nickname" id="nickname" required class="my-input">
 
             <label for="topic">Topic:</label>
-            <select name="topic" id="topic" required>
-                <option value="history">History</option>
+            <select name="topic" id="topic" required class="my-input">
+                <option value="history" >History</option>
                 <option value="geography">Geography</option>
             </select>
 
-            <input type="submit" name="submit" value="Submit">
+            <input type="submit" name="submit" value="Submit" class="submit-btn">
         </form>
 
     </div>
