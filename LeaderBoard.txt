@@ -19,7 +19,7 @@
 ["dd",320]
 ["dasd",9]
 ["dsad",-7]
-["sadad",86]
+["sadad",71]
 ["asdad",-148]
 ["sdasd",-12]
 ["sadasd",-7]

@@ -142,6 +142,14 @@ option {
    
   }
 
+  .heading-result {
+    background-color: #7289da;
+    color: #ffffff;
+    padding: 1em;
+    border-radius: 50px;
+   
+  }
+
   .sortname-btn {
     background-color: #DC143C;
     color: #ffffff;
@@ -186,6 +194,15 @@ option {
   }
 
   .table-record{
+    margin: 0 auto;
+    text-align: center;
+    background-color:#2C2F33;
+    width: 80%;
+    padding:10px;
+    border-radius: 50px;
+  }
+ 
+  .result-record{
     margin: 0 auto;
     text-align: center;
     background-color:#2C2F33;

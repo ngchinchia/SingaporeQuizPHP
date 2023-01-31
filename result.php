@@ -88,13 +88,15 @@
 
 
         /* If else check for quiz ending */
-        echo "<div class='heading-topic'>";
+        echo "<div class='heading-result'>";
         echo "R E S U L T";
         echo "</div>";
+        echo "<br>";
 
+        echo "<div class='result-record'>";
         echo "<br>" . "You have completed the quiz" . "<br>";
 
-
+    
         echo "Number of correct : " . $_SESSION['correct'] . "<br>";
         echo "Number of incorrect : " . $_SESSION['incorrect'] . "<br>";
         echo "Nickname : " . $_SESSION['nickname'] . "<br>";
@@ -120,6 +122,7 @@
         echo "<button onclick='redirectLeaderBoard()' class='record-btn btn-base'>Go to Leaderboard</button>";
         echo "<br>";
         echo "<button id='exit-button' onclick='redirectQuiz()' class='exit-btn btn-base'>Exit</button>";
+        echo "</div>";
 
 
         ?>
