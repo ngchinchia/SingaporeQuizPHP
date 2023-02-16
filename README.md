@@ -25,3 +25,9 @@ Other Expectations:
 2. Questions for history and geography topics containing multiple-choice and short-answer questions.
 3. 10 questions in each question pool with 5 randomly chosen for each quiz.
 4. Data stored in text files for questions and user points.
+
+![d1](https://user-images.githubusercontent.com/83542153/219313685-755c3ddb-4f92-4f71-8bb7-891b17fa4fac.PNG)
+![d2](https://user-images.githubusercontent.com/83542153/219313696-db0adc63-2cb3-40b1-aab2-fccdfe3a9560.PNG)
+![d3](https://user-images.githubusercontent.com/83542153/219313702-e78c5e01-f76f-4c1f-85b2-20f91c1a3f35.PNG)
+![d4](https://user-images.githubusercontent.com/83542153/219313716-7a154cbc-4b25-4518-b109-3283053c428d.PNG)
+![d5](https://user-images.githubusercontent.com/83542153/219313730-4021c0af-a579-44ee-bad6-bdac81eada80.PNG)
